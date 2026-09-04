@@ -2,7 +2,6 @@
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![Framework: Streamlit](https://img.shields.io/badge/framework-Streamlit-FF4B4B.svg)](https://streamlit.io/)
-[![AI Engine: Gemini 2.5](https://img.shields.io/badge/AI-Gemini%202.5%20Flash-4285F4.svg)](https://deepmind.google/technologies/gemini/)
 [![ERP Sync: Tally Prime](https://img.shields.io/badge/ERP-Tally%20Prime%20Sync-008080.svg)](https://tallysolutions.com/)
 [![Compliance: CBIC Rule 46](https://img.shields.io/badge/Compliance-CBIC%20Rule%2046%20GST-059669.svg)](https://www.cbic.gov.in/)
 
