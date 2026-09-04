@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VoiceERP Copilot - Enterprise Speech-to-Text AI Assistant for Automated ERP Data Entry & Inventory Management">
+  <title>VoiceERP Copilot — STT AI for ERP Entry</title>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+  <!-- Top Navigation Header -->
+  <header class="app-header" id="main-header">
+    <div class="header-container">
+      <div class="brand-logo">
+        <div class="logo-icon">
+          <i data-lucide="mic"></i>
+          <span class="pulse-ring"></span>
+        </div>
+        <div class="brand-text">
+          <h1>VoiceERP <span class="badge-ai">Copilot AI</span></h1>
+          <p class="subtitle">Speech-to-Text Automated ERP Entry</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- Target ERP Selector -->
+        <div class="erp-selector-wrapper">
+          <label for="erp-system-select" class="control-label"><i data-lucide="database"></i> ERP Gateway:</label>
+          <select id="erp-system-select" class="custom-select">
+            <option value="sap">SAP S/4HANA Cloud</option>
+            <option value="netsuite" selected>Oracle NetSuite ERP</option>
+            <option value="odoo">Odoo Enterprise v17</option>
+            <option value="dynamics">Microsoft Dynamics 365</option>
+            <option value="custom">Custom REST Webhook</option>
+          </select>
+        </div>
+
+        <!-- AI Engine Status Pill -->
+        <div class="status-pill active" id="system-status-indicator">
+          <span class="status-dot"></span>
+          <span class="status-text">Whisper + GPT-4o Ready</span>
+        </div>
+
+        <button class="btn-icon" id="btn-settings-toggle" title="Pipeline Settings" aria-label="Pipeline Settings">
+          <i data-lucide="settings"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-content-container">
+
+    <!-- Step Pipeline Overview Visualizer -->
+    <section class="pipeline-visualizer-card" aria-label="Voice-to-ERP Pipeline Progress">
+      <div class="section-header-row">
+        <h2><i data-lucide="git-merge"></i> Live 4-Step Voice-to-ERP Pipeline Architecture</h2>
+        <span class="pipeline-badge"><i data-lucide="sparkles"></i> End-to-End Autonomous Flow</span>
+      </div>
+      <div class="pipeline-steps-grid">
+        <div class="pipeline-step-node active" id="step-node-1">
+          <div class="step-badge">Step 1</div>
+          <div class="step-icon"><i data-lucide="mic"></i></div>
+          <div class="step-info">
+            <h3>Capture & Transcribe</h3>
+            <p>Web Speech / Whisper STT API</p>
+          </div>
+          <div class="node-status-badge">Listening / Ready</div>
+        </div>
+
+        <div class="pipeline-connector"><i data-lucide="chevron-right"></i></div>
+
+        <div class="pipeline-step-node" id="step-node-2">
+          <div class="step-badge">Step 2</div>
+          <div class="step-icon"><i data-lucide="brain"></i></div>
+          <div class="step-info">
+            <h3>AI Intent & Entities</h3>
+            <p>GPT-4o / Claude LLM Parser</p>
+          </div>
+          <div class="node-status-badge">Standby</div>
+        </div>
+
+        <div class="pipeline-connector"><i data-lucide="chevron-right"></i></div>
+
+        <div class="pipeline-step-node" id="step-node-3">
+          <div class="step-badge">Step 3</div>
+          <div class="step-icon"><i data-lucide="send"></i></div>
+          <div class="step-info">
+            <h3>ERP REST API Push</h3>
+            <p>JSON Payload & Webhooks</p>
+          </div>
+          <div class="node-status-badge">Standby</div>
+        </div>
+
+        <div class="pipeline-connector"><i data-lucide="chevron-right"></i></div>
+
+        <div class="pipeline-step-node" id="step-node-4">
+          <div class="step-badge">Step 4</div>
+          <div class="step-icon"><i data-lucide="layout-dashboard"></i></div>
+          <div class="step-info">
+            <h3>ERP Database Update</h3>
+            <p>Inventory & Audit Ledger</p>
+          </div>
+          <div class="node-status-badge">Standby</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- App Split Layout: Left Control Panel + Right Live ERP Dashboard -->
+    <div class="workspace-grid">
+
+      <!-- Left Column: Voice Capture & AI Processing Studio -->
+      <div class="left-workspace-column">
+        
+        <!-- Step 1: Voice Recorder Studio -->
+        <section class="glass-card voice-studio-card">
+          <div class="card-header">
+            <h3><i data-lucide="mic-vocal"></i> Step 1: Voice Capture & Transcription</h3>
+            <span class="confidence-tag" id="confidence-tag">STT Engine Active</span>
+          </div>
+
+          <!-- Central Push-To-Talk Button & Waveform Canvas -->
+          <div class="mic-interaction-zone">
+            <div class="canvas-visualizer-container">
+              <canvas id="waveform-canvas" width="480" height="90"></canvas>
+            </div>
+
+            <button class="push-to-talk-btn" id="btn-push-to-talk" aria-label="Push to Talk">
+              <div class="mic-glow-aura"></div>
+              <div class="btn-inner">
+                <i data-lucide="mic" id="mic-icon-main"></i>
+                <span class="recording-wave-bar"></span>
+              </div>
+            </button>
+
+            <div class="recording-state-label" id="mic-status-label">
+              Tap Microphone to Speak or Select a Preset Command
+            </div>
+            <div class="timer-display" id="recording-timer">00:00</div>
+          </div>
+
+          <!-- Dynamic Audio Transcript Area -->
+          <div class="transcript-box-wrapper">
+            <div class="transcript-box-header">
+              <label for="transcript-input-text"><i data-lucide="file-text"></i> Live Audio Transcript:</label>
+              <button class="btn-subtle" id="btn-clear-transcript" title="Clear text"><i data-lucide="trash-2"></i> Clear</button>
+            </div>
+            <textarea id="transcript-input-text" class="transcript-textarea" placeholder="Speak into the microphone or click a preset command below..." rows="3"></textarea>
+            <div class="transcript-footer">
+              <span class="char-count" id="transcript-char-count">0 characters</span>
+              <button class="btn-primary" id="btn-process-ai"><i data-lucide="sparkles"></i> Process with AI (Step 2)</button>
+            </div>
+          </div>
+
+          <!-- Quick Test Audio Presets -->
+          <div class="preset-commands-wrapper">
+            <span class="preset-title"><i data-lucide="zap"></i> Quick Voice Command Presets:</span>
+            <div class="preset-chips-grid">
+              <button class="preset-chip" data-preset="receive_nails">
+                <i data-lucide="package-check"></i>
+                <span>"Receive fifty boxes of steel nails from Vendor A on Purchase Order 1234."</span>
+              </button>
+              <button class="preset-chip" data-preset="transfer_chairs">
+                <i data-lucide="arrow-right-left"></i>
+                <span>"Transfer 20 Ergonomic Chairs from Warehouse North to Chicago Store."</span>
+              </button>
+              <button class="preset-chip" data-preset="requisition_paper">
+                <i data-lucide="shopping-cart"></i>
+                <span>"Create purchase requisition for 100 reams of A4 Paper from Office Supplies Co."</span>
+              </button>
+              <button class="preset-chip" data-preset="audit_screws">
+                <i data-lucide="clipboard-list"></i>
+                <span>"Log inventory count 450 units of Stainless Screws at Bay 3-B."</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Step 2: AI Intent & Entity Parsing Card -->
+        <section class="glass-card ai-parsing-card">
+          <div class="card-header">
+            <h3><i data-lucide="brain"></i> Step 2: AI "Brains" (Intent & Entity Extractor)</h3>
+            <span class="model-badge" id="ai-model-badge"><i data-lucide="cpu"></i> OpenAI GPT-4o</span>
+          </div>
+
+          <div class="ai-output-container" id="ai-output-container">
+            <div class="placeholder-state" id="ai-placeholder">
+              <i data-lucide="bot"></i>
+              <p>Speak or process a transcript to view AI structured JSON extraction</p>
+            </div>
+
+            <!-- Active Parsed Entity Modal / Form -->
+            <div class="parsed-fields-grid hidden" id="parsed-fields-form">
+              <div class="parsed-field-group highlight-action">
+                <label><i data-lucide="activity"></i> Detected Intent / Action:</label>
+                <div class="field-value-badge" id="field-intent-badge">Goods Receipt</div>
+              </div>
+
+              <div class="parsed-field-group">
+                <label for="input-field-item"><i data-lucide="package"></i> Item Description / SKU:</label>
+                <input type="text" id="input-field-item" class="form-input">
+              </div>
+
+              <div class="parsed-fields-row">
+                <div class="parsed-field-group">
+                  <label for="input-field-qty"><i data-lucide="hash"></i> Quantity:</label>
+                  <input type="number" id="input-field-qty" class="form-input">
+                </div>
+                <div class="parsed-field-group">
+                  <label for="input-field-unit"><i data-lucide="box"></i> Unit of Measure:</label>
+                  <input type="text" id="input-field-unit" class="form-input">
+                </div>
+              </div>
+
+              <div class="parsed-fields-row">
+                <div class="parsed-field-group">
+                  <label for="input-field-vendor"><i data-lucide="building"></i> Vendor / Supplier:</label>
+                  <input type="text" id="input-field-vendor" class="form-input">
+                </div>
+                <div class="parsed-field-group">
+                  <label for="input-field-po"><i data-lucide="file-check"></i> Purchase Order #:</label>
+                  <input type="text" id="input-field-po" class="form-input">
+                </div>
+              </div>
+
+              <div class="parsed-field-group">
+                <label for="input-field-location"><i data-lucide="map-pin"></i> Target Location / Warehouse:</label>
+                <input type="text" id="input-field-location" class="form-input">
+              </div>
+
+              <!-- Confidence & Verification Banner -->
+              <div class="ai-confidence-banner">
+                <div class="confidence-meter">
+                  <span class="meter-label">AI Extraction Confidence:</span>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" id="confidence-bar-fill" style="width: 98%;"></div></div>
+                  <span class="meter-val" id="confidence-val">98.4%</span>
+                </div>
+                <button class="btn-success" id="btn-push-erp"><i data-lucide="send"></i> Push to ERP System (Step 3)</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Step 3: ERP REST API Inspector -->
+        <section class="glass-card api-inspector-card">
+          <div class="card-header">
+            <h3><i data-lucide="code"></i> Step 3: ERP REST API & Webhook Payload</h3>
+            <button class="btn-subtle btn-xs" id="btn-copy-json"><i data-lucide="copy"></i> Copy JSON</button>
+          </div>
+          
+          <div class="api-payload-box">
+            <div class="api-header-line">
+              <span class="http-method post">POST</span>
+              <span class="endpoint-url" id="api-endpoint-url">https://api.netsuite.com/v1/inventory/receive</span>
+              <span class="http-status badge-success" id="http-status-badge">200 OK</span>
+            </div>
+            
+            <pre><code class="json-code" id="api-json-code">{
+  "system": "Oracle NetSuite ERP",
+  "endpoint": "/api/v1/inventory/receive",
+  "payload": {
+    "intent": "GOODS_RECEIPT",
+    "poNumber": "PO-1234",
+    "vendor": "Vendor A",
+    "item": "Steel Nails",
+    "quantity": 50,
+    "unit": "boxes",
+    "warehouse": "Main Warehouse - Bay 1A"
+  },
+  "metadata": {
+    "source": "VoiceERP_Copilot_STT",
+    "timestamp": "2026-07-22T09:48:33Z"
+  }
+}</code></pre>
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column: Step 4 Live ERP Dashboard & Audit Log -->
+      <div class="right-workspace-column">
+        
+        <!-- Step 4: Live ERP Inventory Table -->
+        <section class="glass-card erp-dashboard-card">
+          <div class="card-header">
+            <div>
+              <h3><i data-lucide="table"></i> Step 4: Live ERP Inventory Table</h3>
+              <p class="card-sub-desc">Real-time stock ledger updated automatically via voice inputs</p>
+            </div>
+            <button class="btn-secondary btn-sm" id="btn-reset-demo"><i data-lucide="refresh-cw"></i> Reset Demo Data</button>
+          </div>
+
+          <!-- ERP Stats Bar -->
+          <div class="erp-stats-grid">
+            <div class="stat-box">
+              <span class="stat-title">Total Active SKUs</span>
+              <span class="stat-number" id="stat-total-skus">4</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-title">Open Purchase Orders</span>
+              <span class="stat-number" id="stat-open-pos">3</span>
+            </div>
+            <div class="stat-box highlight">
+              <span class="stat-title">Today's Voice Entries</span>
+              <span class="stat-number" id="stat-voice-entries">0</span>
+            </div>
+          </div>
+
+          <!-- Inventory Data Table -->
+          <div class="table-responsive-wrapper">
+            <table class="erp-table" id="inventory-table">
+              <thead>
+                <tr>
+                  <th>Item SKU</th>
+                  <th>Description</th>
+                  <th>Stock On Hand</th>
+                  <th>Unit</th>
+                  <th>Warehouse / Bay</th>
+                  <th>Primary Supplier</th>
+                  <th>Last Update</th>
+                </tr>
+              </thead>
+              <tbody id="inventory-table-body">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Active Purchase Orders Tracker Card -->
+        <section class="glass-card po-tracker-card">
+          <div class="card-header">
+            <h3><i data-lucide="file-spreadsheet"></i> Active Purchase Orders (POs)</h3>
+            <span class="badge-neutral">ERP Master Records</span>
+          </div>
+
+          <div class="po-cards-grid" id="po-cards-grid">
+            <!-- Populated via JS -->
+          </div>
+        </section>
+
+        <!-- Voice Command Audit & Replay Log -->
+        <section class="glass-card audit-log-card">
+          <div class="card-header">
+            <h3><i data-lucide="history"></i> Voice Activity & Audit Log</h3>
+            <span class="audit-count-badge" id="audit-count-badge">0 Logged Actions</span>
+          </div>
+
+          <div class="audit-log-list" id="audit-log-list">
+            <div class="empty-audit-message">
+              <i data-lucide="inbox"></i>
+              <p>No voice entries processed yet. Record your voice or select a preset command to test!</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Settings & Configuration Modal -->
+  <div class="modal-backdrop hidden" id="settings-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3><i data-lucide="sliders"></i> VoiceERP Copilot Settings</h3>
+        <button class="btn-icon" id="btn-close-modal" aria-label="Close modal"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="setting-stt-provider">Speech-to-Text Provider:</label>
+          <select id="setting-stt-provider" class="custom-select">
+            <option value="webspeech">Browser Web Speech API (Local / Fast)</option>
+            <option value="whisper">OpenAI Whisper API (High Accuracy / Medical & Industrial)</option>
+            <option value="google">Google Cloud Speech-to-Text API v2</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="setting-llm-provider">LLM Extraction Engine:</label>
+          <select id="setting-llm-provider" class="custom-select">
+            <option value="gpt4o">OpenAI GPT-4o (Recommended)</option>
+            <option value="claude35">Anthropic Claude 3.5 Sonnet</option>
+            <option value="gemini15">Google Gemini 1.5 Pro</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="setting-api-key">OpenAI / Custom API Key (Optional for Live API):</label>
+          <input type="password" id="setting-api-key" class="form-input" placeholder="sk-proj-..." value="">
+          <span class="field-hint">Note: If left blank, internal high-precision simulated parsing is used automatically.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="setting-webhook-url">ERP Webhook Endpoint URL:</label>
+          <input type="text" id="setting-webhook-url" class="form-input" value="https://api.erp-system.internal/v1/voice/push">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary" id="btn-save-settings">Save Configurations</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- App Script -->
+  <script src="app.js"></script>
+</body>
+</html>

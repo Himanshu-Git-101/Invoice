@@ -1,0 +1,106 @@
+<ENVELOPE>
+  <HEADER>
+    <TALLYREQUEST>Import Data</TALLYREQUEST>
+  </HEADER>
+  <BODY>
+    <IMPORTDATA>
+      <REQUESTDESC>
+        <REPORTNAME>Vouchers</REPORTNAME>
+        <STATICVARIABLES>
+          <SVCURRENTCOMPANY>##SVCURRENTCOMPANY</SVCURRENTCOMPANY>
+        </STATICVARIABLES>
+      </REQUESTDESC>
+      <REQUESTDATA>
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <VOUCHER VCHTYPE="Purchase" ACTION="Create" OBJVIEW="Invoice Voucher View">
+            <DATE>20260901</DATE>
+            <VOUCHERTYPENAME>Purchase</VOUCHERTYPENAME>
+            <VOUCHERNUMBER>PUR-001</VOUCHERNUMBER>
+            <REFERENCE>PUR-001</REFERENCE>
+            <PARTYLEDGERNAME>Unknown Vendor</PARTYLEDGERNAME>
+            <PERSISTEDVIEW>Invoice Voucher View</PERSISTEDVIEW>
+
+            <!-- Party (Vendor Creditor) Total Net Payable Ledger Entry -->
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>Unknown Vendor</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>0.0</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+
+            <!-- Input CGST Tax Ledger Entry -->
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>Input CGST</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-0.0</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+
+            <!-- Input SGST Tax Ledger Entry -->
+            <ALLLEDGERENTRIES.LIST>
+              <LEDGERNAME>Input SGST</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <AMOUNT>-0.0</AMOUNT>
+            </ALLLEDGERENTRIES.LIST>
+
+
+            <!-- Stock Item Inventory Entry: Gold Conal -->
+            <ALLINVENTORYENTRIES.LIST>
+              <STOCKITEMNAME>Gold Conal</STOCKITEMNAME>
+              <HSNCODE>7113</HSNCODE>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <RATE>0.0/unit</RATE>
+              <AMOUNT>-0.0</AMOUNT>
+              <ACTUALQTY>2.0</ACTUALQTY>
+              <BILLEDQTY>2.0</BILLEDQTY>
+              <DISCOUNT>0.0</DISCOUNT>
+
+              <!-- Purchase Accounting Allocation Ledger -->
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <LEDGERNAME>Purchase Accounts</LEDGERNAME>
+                <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+                <AMOUNT>-0.0</AMOUNT>
+              </ACCOUNTINGALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+
+            <!-- Stock Item Inventory Entry: Gold Golu -->
+            <ALLINVENTORYENTRIES.LIST>
+              <STOCKITEMNAME>Gold Golu</STOCKITEMNAME>
+              <HSNCODE>7113</HSNCODE>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <RATE>0.0/unit</RATE>
+              <AMOUNT>-0.0</AMOUNT>
+              <ACTUALQTY>5.0</ACTUALQTY>
+              <BILLEDQTY>5.0</BILLEDQTY>
+              <DISCOUNT>0.0</DISCOUNT>
+
+              <!-- Purchase Accounting Allocation Ledger -->
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <LEDGERNAME>Purchase Accounts</LEDGERNAME>
+                <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+                <AMOUNT>-0.0</AMOUNT>
+              </ACCOUNTINGALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+
+            <!-- Stock Item Inventory Entry: Chalk Piece Box -->
+            <ALLINVENTORYENTRIES.LIST>
+              <STOCKITEMNAME>Chalk Piece Box</STOCKITEMNAME>
+              <HSNCODE>9609</HSNCODE>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <RATE>0.0/unit</RATE>
+              <AMOUNT>-0.0</AMOUNT>
+              <ACTUALQTY>2.0</ACTUALQTY>
+              <BILLEDQTY>2.0</BILLEDQTY>
+              <DISCOUNT>0.0</DISCOUNT>
+
+              <!-- Purchase Accounting Allocation Ledger -->
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <LEDGERNAME>Purchase Accounts</LEDGERNAME>
+                <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+                <AMOUNT>-0.0</AMOUNT>
+              </ACCOUNTINGALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+          </VOUCHER>
+        </TALLYMESSAGE>
+      </REQUESTDATA>
+    </IMPORTDATA>
+  </BODY>
+</ENVELOPE>
